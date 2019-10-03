@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+rentals = [] #Liste pour les resultats
 with open('input.json') as json_file:
     data = json.load(json_file)
     for y in data["rentals"]:
@@ -22,3 +23,16 @@ with open('input.json') as json_file:
                 distance_component = y["distance"]*x["price_per_km"]
                 rental_price = time_component + distance_component
                 print(rental_price)
+                #Ajoute le calcul a la liste
+                rentals.append({
+                    'id': y['id'],
+                    'price': rental_price,
+                })
+
+#Ajoute la liste dans un dictionnaire
+result = {
+    'rentals': rentals,
+}
+#Sauvegarde les resultats dans un JSON
+with open('output.json', 'w') as output_file:
+    json.dump(result, output_file, indent=4)
