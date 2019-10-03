@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from collections import OrderedDict
 
 rentals = [] #Liste pour les resultats
 with open('input.json') as json_file:
@@ -24,10 +25,10 @@ with open('input.json') as json_file:
                 rental_price = time_component + distance_component
                 print(rental_price)
                 #Ajoute le calcul a la liste
-                rentals.append({
-                    'id': y['id'],
-                    'price': rental_price,
-                })
+                dico=OrderedDict()
+                dico['id']=y['id']
+                dico['price']= rental_price
+                rentals.append(dico)
 
 #Ajoute la liste dans un dictionnaire
 result = {
