@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from collections import OrderedDict
 
 #Initialisation du dictionnaire principal
 rentals_list = dict()
@@ -38,7 +39,7 @@ with open('input.json') as json_file:
                 commission_dict["drivy_fee"] = int(drivy)
 
                 #Creation du dictionnaire de la location
-                rental = dict()
+                rental = OrderedDict()
                 rental["id"] = y["id"]
                 rental["price"] = rental_price
                 rental["commission"] = commission_dict
