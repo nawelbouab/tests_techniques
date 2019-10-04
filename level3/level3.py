@@ -1,6 +1,5 @@
-import json
-from datetime import datetime
-from collections import OrderedDict
+
+from function import *
 
 #Initialisation du dictionnaire principal
 rentals_list = dict()
@@ -10,21 +9,14 @@ with open('input.json') as json_file:
     for y in data["rentals"]:
         for x in data["cars"]:
             if x["id"]==y["car_id"]:
-                d1 = datetime.strptime(y["start_date"], "%Y-%m-%d")
-                d2 = datetime.strptime(y["end_date"], "%Y-%m-%d")
-                number_of_days = abs((d2 - d1).days)+1
-                time_component=0
-                if number_of_days>10:
-                    time_component=(number_of_days-10)*0.5*x["price_per_day"]+6*0.7*x["price_per_day"]+3*0.9*x["price_per_day"]+1*x["price_per_day"]
-                elif number_of_days>4:
-                    time_component=(number_of_days-4)*0.7*x["price_per_day"]+3*0.9*x["price_per_day"]+1*x["price_per_day"]
-                elif number_of_days>1:
-                    time_component=(number_of_days-1)*0.9*x["price_per_day"]+1*x["price_per_day"]
-                else:
-                    time_component=x["price_per_day"]
+                start_date = y["start_date"]
+                end_date = y["end_date"]
+                number_of_days = number_of_day(start_date, end_date)
 
+                price_per_day=x["price_per_day"]
                 distance_component = y["distance"]*x["price_per_km"]
-                rental_price = time_component + distance_component
+                rental_price = int(distance_component) + time_compo(number_of_days, price_per_day)
+
 
                 #Calcul des commissions
                 commission = rental_price*0.3
@@ -41,7 +33,7 @@ with open('input.json') as json_file:
                 #Creation du dictionnaire de la location
                 rental = OrderedDict()
                 rental["id"] = y["id"]
-                rental["price"] = rental_price
+                rental["price"] = int(rental_price)
                 rental["commission"] = commission_dict
 
                 #Ajout dans le dictionnaire principal
